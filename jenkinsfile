@@ -2,9 +2,10 @@ pipeline {
     agent any
 
     stages {
-        stage('Hello') {
+        stage('build image') {
             steps {
                 echo '==========Executing========'
+                sh "docker build -t app:latest ."
             }
         }
     }
