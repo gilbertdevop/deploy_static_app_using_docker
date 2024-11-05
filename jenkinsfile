@@ -2,10 +2,13 @@ pipeline {
     agent any
 
     stages {
-        stage('build image') {
+        stage('build image') {                                     //gilbert2kengni067
             steps {
-                echo '==========Executing========'
-                sh "docker build -t app:latest ."
+                echo '==========Executing===================================================='
+                sh "docker build -t app:1.0.0 ."
+                //sh "docker tag static_app:latest gilbert2kengni067/static_app:latest"
+                //sh "docker build -t gilbert2kengni067/static_app:latest"
+                //sh "docker rmi static_app"
             }
         }
     }
