@@ -7,13 +7,13 @@ pipeline {
         //choice(name: 'STAGE', choices: ['PROD','DEV','QA']) 
     }
  //-------------------------------------------------------------------------------------------------
-    environment{
+    //environment{
        // GIT_RIPO = "https://github.com/soundiata12/Fullpipeline-project.git"
  
         //${params.image} = "${params.image}"
  
         //ENVIRON= "${params.STAGE}"
-    }
+    //}
  //--------------------------------------------------------------------------------------------------
 
     stages {
