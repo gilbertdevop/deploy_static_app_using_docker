@@ -1,5 +1,20 @@
 pipeline {
     agent any
+    
+    parameters{
+        string(name: 'image', defaultValue: '1.0.4' )
+ 
+        //choice(name: 'STAGE', choices: ['PROD','DEV','QA']) 
+    }
+ //-------------------------------------------------------------------------------------------------
+    environment{
+       // GIT_RIPO = "https://github.com/soundiata12/Fullpipeline-project.git"
+ 
+        DOCKER_VERSION = "${params.VERSION}"
+ 
+        ENVIRON= "${params.STAGE}"
+    }
+ //--------------------------------------------------------------------------------------------------
 
     stages {
         stage('build image') {                                     //gilbert2kengni067
@@ -8,14 +23,13 @@ pipeline {
                     // This step should not normally be used in your script. Consult the inline help for details.
                      withDockerRegistry(credentialsId: 'dockerhub_id') {
                      echo '==========Executing===================================================='
-                     sh "docker build -t myapp:1.0.0 ." 
-                     sh "docker tag myapp:1.0.0 gilbert2kengni067/myapp:1.0.0"
-                     sh "docker push gilbert2kengni067/myapp:1.0.0"
+                     sh "docker build -t myapp:DOCKER_VERSION ." 
+                     sh "docker tag myapp:DOCKER_VERSION gilbert2kengni067/myapp:DOCKER_VERSION"
+                     sh "docker push gilbert2kengni067/myapp:DOCKER_VERSION"
                     }
                 }
                 
                 
-
             }
         }
     }
