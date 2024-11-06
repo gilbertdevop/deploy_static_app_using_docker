@@ -10,9 +10,9 @@ pipeline {
     environment{
        // GIT_RIPO = "https://github.com/soundiata12/Fullpipeline-project.git"
  
-        DOCKER_VERSION = "${params.VERSION}"
+        DOCKER_VERSION = "${params.image}"
  
-        ENVIRON= "${params.STAGE}"
+        //ENVIRON= "${params.STAGE}"
     }
  //--------------------------------------------------------------------------------------------------
 
