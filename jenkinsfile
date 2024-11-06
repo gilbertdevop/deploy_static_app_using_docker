@@ -4,11 +4,20 @@ pipeline {
     stages {
         stage('build image') {                                     //gilbert2kengni067
             steps {
-                echo '==========Executing===================================================='
-                sh "docker build -t app:1.0.0 ."
-                //sh "docker tag static_app:latest gilbert2kengni067/static_app:latest"
+                script{
+                    // This step should not normally be used in your script. Consult the inline help for details.
+                     withDockerRegistry(credentialsId: 'dockerhub_id') {
+                     echo '==========Executing===================================================='
+                     sh "docker build -t app:1.0.0 ." 
+                     sh "docker tag myapp:1.0.0 gilbert2kengni067/myapp:1.0.0"
+                     sh "docker push gilbert2kengni067/myapp:1.0.0"
+                    }
+                }
+                
+                //
                 //sh "docker build -t gilbert2kengni067/static_app:latest"
                 //sh "docker rmi static_app"
+
             }
         }
     }
