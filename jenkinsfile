@@ -10,7 +10,7 @@ pipeline {
     environment{
        // GIT_RIPO = "https://github.com/soundiata12/Fullpipeline-project.git"
  
-        DOCKER_VERSION = "${params.image}"
+        //${params.image} = "${params.image}"
  
         //ENVIRON= "${params.STAGE}"
     }
@@ -23,9 +23,9 @@ pipeline {
                     // This step should not normally be used in your script. Consult the inline help for details.
                      withDockerRegistry(credentialsId: 'dockerhub_id') {
                      echo '==========Executing===================================================='
-                     sh "docker build -t myapp:DOCKER_VERSION ." 
-                     sh "docker tag myapp:DOCKER_VERSION gilbert2kengni067/myapp:DOCKER_VERSION"
-                     sh "docker push gilbert2kengni067/myapp:DOCKER_VERSION"
+                     sh "docker build -t myapp:${params.image} ." 
+                     sh "docker tag myapp:${params.image} gilbert2kengni067/myapp:${params.image}"
+                     sh "docker push gilbert2kengni067/myapp:${params.image}"
                     }
                 }
                 
