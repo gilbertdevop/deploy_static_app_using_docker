@@ -13,7 +13,7 @@ pipeline {
         FULL_REPO_URL= 'https://432211875745.dkr.ecr.us-east-1.amazonaws.com/'
         REPO_NAME= "BOXING"
         ECR_CLUSTER_NAME= "boxingCluster"
-        ECS_SERVICE_NAME= boxingApp-svc
+       // ECS_SERVICE_NAME= boxingApp-svc
     }     
  //--------------------------------------------------------------------------------------------------
 
