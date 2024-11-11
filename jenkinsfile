@@ -4,33 +4,62 @@ pipeline {
     parameters{
         string(name: 'image', defaultValue: '1.0.4' )
  
-        //choice(name: 'STAGE', choices: ['PROD','DEV','QA']) 
     }
- //-------------------------------------------------------------------------------------------------
-    //environment{
-       // GIT_RIPO = "https://github.com/soundiata12/Fullpipeline-project.git"
+  // withDockerRegistry(credentialsId: 'ecr:us-east-1:boxingapp_id', url: 'https://432211875745.dkr.ecr.us-east-1.amazonaws.com/')
+    environment{
  
-        //${params.image} = "${params.image}"
- 
-        //ENVIRON= "${params.STAGE}"
-    //}
+        CRED_ID = "ecr:us-east-1:boxingapp_id"
+        ECR_URL= "432211875745.dkr.ecr.us-east-1.amazonaws.com/"
+        FULL_REPO_URL= 'https://432211875745.dkr.ecr.us-east-1.amazonaws.com/'
+        REPO_NAME= "BOXING"
+        ECR_CLUSTER_NAME= "boxingCluster"
+        ECS_SERVICE_NAME= boxingApp-svc
+    }     
  //--------------------------------------------------------------------------------------------------
 
     stages {
-        stage('build image') {                                     //gilbert2kengni067
-            steps {
+        // stage('build image') {                                     //gilbert2kengni067
+        //     steps {
+        //         script{
+        //             // This step should not normally be used in your script. Consult the inline help for details.
+        //              withDockerRegistry(credentialsId: 'dockerhub_id') {
+        //              echo '==========Executing===================================================='
+        //              sh "docker build -t myapp:${params.image} ." 
+        //              sh "docker tag myapp:${params.image} gilbert2kengni067/myapp:${params.image}"
+        //              sh "docker push gilbert2kengni067/myapp:${params.image}"
+        //             }
+        //         }
+                
+                
+        //     }
+      //----------     withDockerRegistry (url: 'https://432211875745.dkr.ecr.us-east-1.amazonaws.com/') {
+        
+        stage("Build and push to ECR"){
+            steps{
                 script{
-                    // This step should not normally be used in your script. Consult the inline help for details.
-                     withDockerRegistry(credentialsId: 'dockerhub_id') {
-                     echo '==========Executing===================================================='
-                     sh "docker build -t myapp:${params.image} ." 
-                     sh "docker tag myapp:${params.image} gilbert2kengni067/myapp:${params.image}"
-                     sh "docker push gilbert2kengni067/myapp:${params.image}"
+                    withDockerRegistry(credentialsId: CRED_ID, ECR_URL, FULL_URL ) {
+
+                        sh "docker build -t myapp:${params.IMAGETAG } ." 
+                        sh "docker tag myapp:${params.IMAGETAG} ${REPO_URL}/${REPO_NAME}:${params.IMAGETAG} "
+                        sh "docker tag myapp:${params.IMAGETAG} ${REPO_URL}/${REPO_NAME}:latest"
+                        sh "docker push ${REPO_URL}/${REPO_NAME}:latest"
+                        SH "docker push ${REPO_URL}/${REPO_NAME}:${params.IMAGETAG}"
                     }
                 }
-                
-                
             }
         }
-    }
+     //-----------------------------------------------------------------------------------------------      
+        // stage("Build and push ECS"){
+        //     steps{
+        //         script{
+        //             withDockerRegistry(credentialsId: CRED_ID, URL, FULL_URL ) {
+
+        //                 sh "aws ecs update-service --cluster ${ECS_CLUSTER_NAME} --service  ${ECS_SERVICE_NAME} --force-new-deployment"
+        //             }
+        //         }       
+        //     }
+        // }
+          //-------------------------------------
+
+    }    
 }
