@@ -36,7 +36,7 @@ pipeline {
         stage("Build and push to ECR"){
             steps{
                 script{
-                    withDockerRegistry(credentialsId: CRED_ID, ECR_URL, FULL_URL ) {
+                    withDockerRegistry(credentialsId: CRED_ID, url:FULL_REPO_URL ) {
 
                         sh "docker build -t myapp:${params.IMAGETAG } ." 
 
