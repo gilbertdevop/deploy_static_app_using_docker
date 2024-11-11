@@ -29,8 +29,7 @@ pipeline {
         //              sh "docker push gilbert2kengni067/myapp:${params.image}"
         //             }
         //         }
-                
-                
+                       
         //     }
       //----------     withDockerRegistry (url: 'https://432211875745.dkr.ecr.us-east-1.amazonaws.com/') {
         
