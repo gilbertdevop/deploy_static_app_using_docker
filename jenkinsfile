@@ -9,7 +9,8 @@ pipeline {
     environment{
  
         CRED_ID = "ecr:us-east-1:boxingapp_id"
-        ECR_URL= "432211875745.dkr.ecr.us-east-1.amazonaws.com/"
+        REPO_URL= "432211875745.dkr.ecr.us-east-1.amazonaws.com/"
+        //ECR_URL= 
         FULL_REPO_URL= 'https://432211875745.dkr.ecr.us-east-1.amazonaws.com/'
         REPO_NAME= "BOXING"
         ECR_CLUSTER_NAME= "boxingCluster"
