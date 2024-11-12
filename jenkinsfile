@@ -42,7 +42,7 @@ pipeline {
                         sh "docker tag myapp:${params.IMAGETAG} ${ECR_URL}/boxingapp-ecr:latest"
                         sh "docker push ${ECR_URL}/boxingapp-ecr:latest"
 
-                        Sh "docker push ${ECR_URL}/boxingapp-ecr:${params.IMAGETAG}"
+                        sh "docker push ${ECR_URL}/boxingapp-ecr:${params.IMAGETAG}"
                     }
                 }
             }
