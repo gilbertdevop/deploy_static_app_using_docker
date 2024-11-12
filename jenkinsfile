@@ -37,12 +37,12 @@ pipeline {
                     withDockerRegistry(credentialsId: 'ecr:us-east-1:boxingapp_id', url: 'https://432211875745.dkr.ecr.us-east-1.amazonaws.com/') {
 
                         sh "docker build -t myapp:${params.image } ." 
-                        sh "docker tag myapp:${params.IMAGETAG} ${ECR_URL}/boxingapp:${params.IMAGETAG} "
+                        sh "docker tag myapp:${params.IMAGETAG} ${ECR_URL}/boxingapp-ecr:${params.IMAGETAG} "
 
-                        sh "docker tag myapp:${params.IMAGETAG} ${ECR_URL}/boxingapp:latest"
-                        sh "docker push ${ECR_URL}/boxingapp:latest"
+                        sh "docker tag myapp:${params.IMAGETAG} ${ECR_URL}/boxingapp-ecr:latest"
+                        sh "docker push ${ECR_URL}/boxingapp-ecr:latest"
 
-                        SH "docker push ${ECR_URL}/boxingapp:${params.IMAGETAG}"
+                        SH "docker push ${ECR_URL}/boxingapp-ecr:${params.IMAGETAG}"
                     }
                 }
             }
