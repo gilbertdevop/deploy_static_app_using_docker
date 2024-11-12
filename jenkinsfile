@@ -32,22 +32,22 @@ pipeline {
         //     }
       
         
-        stage("Build and push to ECR"){
-            steps{
-                script{
-                    withDockerRegistry(credentialsId: 'ecr:us-east-1:boxingapp_id', url: '432211875745.dkr.ecr.us-east-1.amazonaws.com/boxingapp-ecr:null')  {
+        // stage("Build and push to ECR"){
+        //     steps{
+        //         script{
+        //             withDockerRegistry(credentialsId: 'ecr:us-east-1:boxingapp_id', url: '432211875745.dkr.ecr.us-east-1.amazonaws.com/boxingapp-ecr:null')  {
 
-                        sh "docker build -t myapp:${params.image } ." 
-                        sh "docker tag myapp:${params.IMAGETAG} ${ECR_URL}/boxingapp-ecr:${params.IMAGETAG} "
+        //                 sh "docker build -t myapp:${params.image } ." 
+        //                 sh "docker tag myapp:${params.IMAGETAG} ${ECR_URL}/boxingapp-ecr:${params.IMAGETAG} "
 
-                        sh "docker tag myapp:${params.IMAGETAG} ${ECR_URL}/boxingapp-ecr:latest"
-                        sh "docker push ${ECR_URL}/boxingapp-ecr:latest"
+        //                 sh "docker tag myapp:${params.IMAGETAG} ${ECR_URL}/boxingapp-ecr:latest"
+        //                 sh "docker push ${ECR_URL}/boxingapp-ecr:latest"
 
-                        sh "docker push ${ECR_URL}/boxingapp-ecr:${params.IMAGETAG}"
-                    }
-                }
-            }
-        }
+        //                 sh "docker push ${ECR_URL}/boxingapp-ecr:${params.IMAGETAG}"
+        //             }
+        //         }
+        //     }
+        // }
 //-----------------------------------------------------------------------------------------------      
         stage("Build and push ECS"){
             steps{
