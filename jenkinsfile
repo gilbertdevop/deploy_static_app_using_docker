@@ -5,17 +5,13 @@ pipeline {
         string(name: 'image', defaultValue: '1.0.0' )
  
     }
-  // withDockerRegistry(credentialsId: 'ecr:us-east-1:boxingapp_id', url: 'https://432211875745.dkr.ecr.us-east-1.amazonaws.com/')
+
     environment{
+        ECR_URL: '432211875745.dkr.ecr.us-east-1.amazonaws.com'
  
-        CRED_ID = "ecr:us-east-1:boxingapp_id"
-        REPO_URL= "432211875745.dkr.ecr.us-east-1.amazonaws.com"
-        //ECR_URL= 
-        FULL_REPO_URL= 'https://432211875745.dkr.ecr.us-east-1.amazonaws.com/'
-        REPO_NAME= "BOXING"
-        ECR_CLUSTER_NAME= "boxingCluster"
-       // ECS_SERVICE_NAME= boxingApp-svc
-    }     
+        
+    }
+
  //--------------------------------------------------------------------------------------------------
 
     stages {
@@ -37,14 +33,15 @@ pipeline {
         stage("Build and push to ECR"){
             steps{
                 script{
-                    withDockerRegistry(credentialsId: CRED_ID, url: 'https://432211875745.dkr.ecr.us-east-1.amazonaws.com/' ) {
+                    withDockerRegistry(credentialsId: 'ecr:us-east-1:boxingapp_id', url: 'https://432211875745.dkr.ecr.us-east-1.amazonaws.com/') {
 
-                        sh "docker build -t myapp:${params.IMAGETAG } ." 
+                        sh "docker build -t myapp:${params.image } ." 
+                        sh "docker tag myapp:${params.IMAGETAG} ${ECR_URL}/boxingapp:${params.IMAGETAG} "
 
-                        sh "docker tag myapp:${params.IMAGETAG} ${REPO_URL}/${REPO_NAME}:${params.IMAGETAG} "
-                        sh "docker tag myapp:${params.IMAGETAG} ${REPO_URL}/${REPO_NAME}:latest"
-                        sh "docker push ${REPO_URL}/${REPO_NAME}:latest"
-                        SH "docker push ${REPO_URL}/${REPO_NAME}:${params.IMAGETAG}"
+                        sh "docker tag myapp:${params.IMAGETAG} ${ECR_URL}/boxingapp:latest"
+                        sh "docker push ${ECR_URL}/boxingapp:latest"
+
+                        SH "docker push ${ECR_URL}/boxingapp:${params.IMAGETAG}"
                     }
                 }
             }
