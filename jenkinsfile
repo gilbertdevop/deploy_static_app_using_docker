@@ -7,10 +7,11 @@ pipeline {
     }
 
     environment{
-        ECR_URL: '432211875745.dkr.ecr.us-east-1.amazonaws.com'
+        
+        ECR_URL='432211875745.dkr.ecr.us-east-1.amazonaws.com'
  
         
-    }
+        }
 
  //--------------------------------------------------------------------------------------------------
 
