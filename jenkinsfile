@@ -48,13 +48,15 @@ pipeline {
                 }
             }
         }
-//-----------------------------------------------------------------------------------------------      
-        stage("Build and push ECS"){
-            steps{
+//----------------------------------------------------------------------------------------------- 
+
+        // stage("Build and push ECS"){
+        //     steps{
                
-                sh "aws ecs update-service --cluster ${ECS_CLUSTER_NAME} --service  ${ECS_SERVICE_NAME} --force-new-deployment"      
-            }
-        } 
+        //         sh "aws ecs update-service --cluster ${ECS_CLUSTER_NAME} --service  ${ECS_SERVICE_NAME} --force-new-deployment"      
+        //     }
+        // } 
+
 //-------------------------------------------------------------------------------------------------------------        
     }     
 }
