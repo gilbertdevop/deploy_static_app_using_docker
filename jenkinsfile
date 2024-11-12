@@ -8,7 +8,7 @@ pipeline {
 
     environment{
         
-        ECR_URL='432211875745.dkr.ecr.us-east-1.amazonaws.com'
+        ECR_URL="432211875745.dkr.ecr.us-east-1.amazonaws.com"
         ECS_CLUSTER_NAME= "boxing_cluster"
         ECS_SERVICE_NAME= "boxingapp-service"
         
