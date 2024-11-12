@@ -9,7 +9,8 @@ pipeline {
     environment{
         
         ECR_URL='432211875745.dkr.ecr.us-east-1.amazonaws.com'
- 
+        ECS_CLUSTER_NAME= "boxing_cluster"
+        ECS_SERVICE_NAME= "boxingapp-service"
         
         }
 
@@ -29,12 +30,12 @@ pipeline {
         //         }
                        
         //     }
-      //----------     withDockerRegistry (url: 'https://432211875745.dkr.ecr.us-east-1.amazonaws.com/') {
+      
         
         stage("Build and push to ECR"){
             steps{
                 script{
-                    withDockerRegistry(credentialsId: 'ecr:us-east-1:boxingapp_id', url: 'https://432211875745.dkr.ecr.us-east-1.amazonaws.com/') {
+                    withDockerRegistry(credentialsId: 'ecr:us-east-1:boxingapp_id', url: ${ECR_URL}/) {
 
                         sh "docker build -t myapp:${params.image } ." 
                         sh "docker tag myapp:${params.IMAGETAG} ${ECR_URL}/boxingapp-ecr:${params.IMAGETAG} "
@@ -47,18 +48,13 @@ pipeline {
                 }
             }
         }
-     //-----------------------------------------------------------------------------------------------      
-        // stage("Build and push ECS"){
-        //     steps{
-        //         script{
-        //             withDockerRegistry(credentialsId: CRED_ID, URL, FULL_URL ) {
-
-        //                 sh "aws ecs update-service --cluster ${ECS_CLUSTER_NAME} --service  ${ECS_SERVICE_NAME} --force-new-deployment"
-        //             }
-        //         }       
-        //     }
-        // }
-          //-------------------------------------
-
+//-----------------------------------------------------------------------------------------------      
+        stage("Build and push ECS"){
+            steps{
+               
+                sh "aws ecs update-service --cluster ${ECS_CLUSTER_NAME} --service  ${ECS_SERVICE_NAME} --force-new-deployment"      
+            }
+        } 
+//-------------------------------------------------------------------------------------------------------------        
     }    
 }
