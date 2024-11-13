@@ -53,19 +53,17 @@ pipeline {
 
         stage("Build and push ECS"){
             steps{
-               withDockerRegistry(credentialsId: 'ecr:us-east-1:boxingapp_id', url: 'https://boxingapp-lb-1929751495.us-east-1.elb.amazonaws.com') 
-            
-               {
+                script{
+                    withDockerRegistry(credentialsId: 'ecr:us-east-1:boxingapp_id', url: 'https://432211875745.dkr.ecr.us-east-1.amazonaws.com/boxingapp-ecr:null') {
 
-               sh """
-                    aws ecs update-service \
-                    --region ${AWS_REGION} \
-                    --cluster ${ECS_CLUSTER_NAME} \
-                    --service  ${ECS_SERVICE_NAME} \
-                    --force-new-deployment
-                """     
-            }
-        } 
+                       sh """
+                           aws ecs update-service \
+                           --cluster ${ECS_CLUSTER_NAME} \
+                           --service  ${ECS_SERVICE_NAME} \
+                           --force-new-deployment
+                """   }  
+              }
+            } 
         }
 //-------------------------------------------------------------------------------------------------------------        
     }     
