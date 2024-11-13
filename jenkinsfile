@@ -53,17 +53,16 @@ pipeline {
 
         stage("Build and push ECS"){
             steps{
-               withCredentials([[ $class: 'AmazonWebServicesCredentialsBinding',credentialsId: 'ecr:us-east-1:boxingapp_id']]) // Use your Jenkins credentials ID
-                                   
+               withCredentials([[ $class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'ecr:us-east-1:boxingapp_id']]) 
             
                {
 
                sh """
-                aws ecs update-service \
-                --region ${AWS_REGION}
-                --cluster ${ECS_CLUSTER_NAME} \
-                --service  ${ECS_SERVICE_NAME} \
-                --force-new-deployment
+                    aws ecs update-service \
+                    --region ${AWS_REGION} \
+                    --cluster ${ECS_CLUSTER_NAME} \
+                    --service  ${ECS_SERVICE_NAME} \
+                    --force-new-deployment
                 """     
             }
         } 
