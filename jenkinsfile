@@ -11,6 +11,7 @@ pipeline {
         ECR_URL="432211875745.dkr.ecr.us-east-1.amazonaws.com"
         ECS_CLUSTER_NAME= "boxing_cluster"
         ECS_SERVICE_NAME= "boxingapp-service"
+        region= "us-east-1"
         
         }
 
@@ -52,11 +53,21 @@ pipeline {
 
         stage("Build and push ECS"){
             steps{
-               
-                sh "sudo aws ecs update-service --cluster ${ECS_CLUSTER_NAME} --service  ${ECS_SERVICE_NAME} --force-new-deployment"      
+               withCredentials([[ $class: 'AmazonWebServicesCredentialsBinding',credentialsId: 'ecr:us-east-1:boxingapp_id']]) // Use your Jenkins credentials ID
+                                   
+            
+               {
+
+               sh """
+                aws ecs update-service \
+                --region ${AWS_REGION}
+                --cluster ${ECS_CLUSTER_NAME} \
+                --service  ${ECS_SERVICE_NAME} \
+                --force-new-deployment
+                """     
             }
         } 
- 
+        }
 //-------------------------------------------------------------------------------------------------------------        
     }     
 }
