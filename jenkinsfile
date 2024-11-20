@@ -18,47 +18,50 @@ pipeline {
  //--------------------------------------------------------------------------------------------------
 
     stages {
-        // stage('build image') {                                     //gilbert2kengni067
-        //     steps {
-        //         script{
-        //             // This step should not normally be used in your script. Consult the inline help for details.
-        //              withDockerRegistry(credentialsId: 'dockerhub_id') {
-        //              echo '==========Executing===================================================='
-        //              sh "docker build -t myapp:${params.image} ." 
-        //              sh "docker tag myapp:${params.image} gilbert2kengni067/myapp:${params.image}"
-        //              sh "docker push gilbert2kengni067/myapp:${params.image}"
-        //             }
-        //         }
-                       
-        //     }
-      
-        
-        stage("Build and push to ECR"){
+         stage('scan files') {                                     
+            steps {
+                 sh "trivy fs --format table -o gilberapp.html"
+            }
+         }
+  //--------------------------------------------------------------------------------------------    
+        stage("Build the image"){
+            steps{
+                    sh "docker build -t myapp:${params.image } ." 
+                    sh "docker tag myapp:${params.IMAGETAG} ${ECR_URL}/boxingapp-ecr:${params.IMAGETAG} "
+                    sh "docker tag myapp:${params.IMAGETAG} ${ECR_URL}/boxingapp-ecr:latest"
+                   }
+                }   
+            
+ //------------------------------------------------------------------------------------------      
+        stage('scan the image') {                                      
+            steps {
+                 sh "trivy image --format table -o docker_image_gilberapp.html  ${ECR_URL}/boxingapp-ecr:latest"
+            }
+         }
+  //----------------------------------------------------------------------------------------              
+        stage("push the image to ECR"){
             steps{
                 script{
                     withDockerRegistry(credentialsId: 'ecr:us-east-1:boxingapp_id', url: 'https://432211875745.dkr.ecr.us-east-1.amazonaws.com/boxingapp-ecr:null')  {
 
-                        sh "docker build -t myapp:${params.image } ." 
-                        sh "docker tag myapp:${params.IMAGETAG} ${ECR_URL}/boxingapp-ecr:${params.IMAGETAG} "
-
-                        sh "docker tag myapp:${params.IMAGETAG} ${ECR_URL}/boxingapp-ecr:latest"
                         sh "docker push ${ECR_URL}/boxingapp-ecr:latest"
-
                         sh "docker push ${ECR_URL}/boxingapp-ecr:${params.IMAGETAG}"
                     }
                 }
             }
         }
+  
 //----------------------------------------------------------------------------------------------- 
 
-        stage("Build and push ECS"){
+        stage("speed up the container using ECS and deploy the app "){
             steps{
                
-                      sh "aws ecs update-service  --cluster boxing_cluster  --service  boxingapp-service  --force-new-deployment"                 
+                sh "aws ecs update-service  --cluster boxing_cluster  --service  boxingapp-service  --force-new-deployment"                 
               }
-            }
-//-------------------------------------------------------------------------------------------------------------             
         }
+//-------------------------------------------------------------------------------------------------------------             
+    }
+}   
         
-    }     
+       
 
