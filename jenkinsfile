@@ -13,7 +13,7 @@ pipeline {
         ECS_SERVICE_NAME= "boxingapp-service"
         region= "us-east-1"
         sona_scanner=tool "sona1"
-        APP_NAME= "clinicapp"
+        APP_NAME= "boxingapp"    //clinicapp
         
         }
 
