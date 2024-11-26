@@ -24,7 +24,7 @@ pipeline {
             steps {
                 script{                     
                     withSonarQubeEnv("mysonar"){ 
-                      sh "i am sonar"
+                      sh "echo i am sonar"
 
                     //   sh '''
                     //     ${sona_scanner}/bin/sonar-scanner \
