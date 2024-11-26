@@ -22,7 +22,7 @@ pipeline {
          stage('sonar scan ') {                                     
             steps {
                 script{                    // withSonarQubeEnv(credentialsId: 'clinicapp') 
-                    withSonarQubeEnv(credentialsId: "clinicapp"){ 
+                    withSonarQubeEnv(credentialsId: "my_sonaQ"){ 
                       sh "i am sonar"
 
                     //   sh '''
