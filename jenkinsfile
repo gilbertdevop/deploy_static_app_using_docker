@@ -30,7 +30,7 @@ pipeline {
                       sh '''
                         ${sona_scanner}/bin/sonar-scanner \
                         -Dsonar.projectkey= ${APP_NAME}  \
-                        -Dsonar.sources= .\
+                        -Dsonar.sources=. \
                         -Dsonar.projectName= ${APP_NAME}  \
                         -Dsonar.java.binaries=.
                        '''
