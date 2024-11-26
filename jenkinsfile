@@ -12,7 +12,8 @@ pipeline {
         ECS_CLUSTER_NAME= "boxing_cluster"
         ECS_SERVICE_NAME= "boxingapp-service"
         region= "us-east-1"
-        //sona_scanner=tool "sonar"
+        sona_scanner=tool "sona1"
+        APP_NAME= "clinicapp"
         
         }
 
@@ -26,10 +27,13 @@ pipeline {
                     withSonarQubeEnv("mysonar"){ 
                       sh "echo i am sonar"
 
-                    //   sh '''
-                    //     ${sona_scanner}/bin/sonar-scanner \
-                    //     -Dsonar.projectkey= ${} 
-                    // '''
+                      sh '''
+                        ${sona_scanner}/bin/sonar-scanner \
+                        -Dsonar.projectkey= ${APP_NAME}  \
+                        -Dsonar.sources= .\
+                        -Dsonar.projectName= ${APP_NAME}  \
+                        -Dsonar.java.binaries=.
+                       '''
                    } 
                 }
                   
