@@ -12,16 +12,17 @@ pipeline {
         ECS_CLUSTER_NAME= "boxing_cluster"
         ECS_SERVICE_NAME= "boxingapp-service"
         region= "us-east-1"
-        sona_scanner=tool "sonar"
+        //sona_scanner=tool "sonar"
         
         }
 
  //--------------------------------------------------------------------------------------------------
 
     stages {
+
          stage('sonar scan ') {                                     
             steps {
-                script{                    // withSonarQubeEnv(credentialsId: 'clinicapp') 
+                script{                     
                     withSonarQubeEnv("mysonar"){ 
                       sh "i am sonar"
 
